@@ -1,0 +1,76 @@
+{
+  "manifestVersion": 1,
+  "purpose": "documentation-demo-only",
+  "assetCategories": [
+    {
+      "category": "tool-image",
+      "id": "tool_0001",
+      "demoPath": "Assets/images/tools/tool_0001.png",
+      "targetProductionFormat": "webp",
+      "template": "tool-image",
+      "toolType": "fine_drill",
+      "interaction": "tap",
+      "states": ["dull", "sharp"],
+      "licenseStatus": "placeholder-only"
+    },
+    {
+      "category": "laser-effect",
+      "id": "fx_0001",
+      "demoPath": "Assets/animations/laser/fx_0001.png",
+      "targetProductionFormat": "json-plus-png",
+      "template": "laser-effect",
+      "variants": ["cyan", "short"],
+      "licenseStatus": "placeholder-only"
+    },
+    {
+      "category": "grind-effect",
+      "id": "fx_0001",
+      "demoPath": "Assets/animations/grind/fx_0001.png",
+      "targetProductionFormat": "json-plus-png",
+      "template": "grind-effect",
+      "variants": ["warm", "medium-density"],
+      "licenseStatus": "placeholder-only"
+    },
+    {
+      "category": "watcher-video",
+      "id": "attract_0001",
+      "demoPath": "Assets/images/ui/attract_0001.png",
+      "targetProductionFormat": "webm",
+      "template": "watcher-video",
+      "variants": ["landscape"],
+      "licenseStatus": "placeholder-only"
+    },
+    {
+      "category": "laser-sfx",
+      "id": "sfx_0001",
+      "demoPath": "Assets/audio/laser/sfx_0001.wav",
+      "targetProductionFormat": "ogg-or-wav",
+      "template": "laser-sfx",
+      "licenseStatus": "synthetic-demo"
+    },
+    {
+      "category": "grind-sfx",
+      "id": "sfx_0001",
+      "demoPath": "Assets/audio/grind/sfx_0001.wav",
+      "targetProductionFormat": "ogg-or-wav",
+      "template": "grind-sfx",
+      "licenseStatus": "synthetic-demo"
+    },
+    {
+      "category": "music-loop",
+      "id": "music_0001",
+      "demoPath": "Assets/audio/music/music_0001.wav",
+      "targetProductionFormat": "ogg-or-wav",
+      "template": "music-loop",
+      "licenseStatus": "synthetic-demo"
+    },
+    {
+      "category": "ui-sfx",
+      "id": "sfx_0001",
+      "demoPath": "Assets/audio/ui/sfx_0001.wav",
+      "targetProductionFormat": "ogg-or-wav",
+      "template": "ui-sfx",
+      "licenseStatus": "synthetic-demo"
+    }
+  ]
+}

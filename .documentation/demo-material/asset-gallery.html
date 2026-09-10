@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vollmer Messe-Game | Asset-Demomaterial</title>
+  <style>
+    :root { --ink: #10252c; --steel: #455a64; --paper: #edf2f1; --cyan: #00aec7; --lime: #a8c83b; --amber: #ff9e2c; --red: #e45b4f; }
+    * { box-sizing: border-box; }
+    body { margin: 0; color: var(--ink); background: repeating-linear-gradient(135deg, #e4ecea 0 2px, var(--paper) 2px 14px); font: 16px Georgia, serif; }
+    main { max-width: 1180px; margin: 0 auto; padding: 32px 20px 52px; }
+    header { border-bottom: 5px solid var(--lime); padding-bottom: 20px; }
+    h1, h2, p { margin: 0; } h1 { font-size: 34px; } header p { margin-top: 10px; color: var(--steel); max-width: 740px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(255px, 1fr)); gap: 16px; margin-top: 24px; }
+    article { background: #fff; border: 1px solid #b9c6c3; border-radius: 6px; overflow: hidden; box-shadow: 5px 5px 0 #c8d2cf; }
+    .visual { height: 170px; position: relative; overflow: hidden; background: #11282f; display: grid; place-items: center; }
+    .copy { padding: 14px; } h2 { font-size: 18px; } code { display: inline-block; color: #1f6774; background: #e8f3f1; margin-top: 8px; padding: 3px 6px; font: 13px Consolas, monospace; } .copy p { font-size: 14px; margin-top: 9px; line-height: 1.35; }
+    .asset-image { width: 100%; height: 100%; object-fit: cover; }
+    .drill { width: 36px; height: 135px; background: linear-gradient(90deg, #697b7f, #dce6e5 48%, #75888b); clip-path: polygon(30% 0,70% 0,72% 15%,100% 32%,72% 47%,100% 65%,55% 100%,0 65%,28% 47%,0 32%,28% 15%); transform: rotate(-38deg); filter: drop-shadow(0 0 10px #d9e5e4); }
+    .drill::after { content: ""; position: absolute; width: 7px; height: 120px; left: 14px; background: #e45b4f; opacity: .85; }
+    .laser { width: 10px; height: 10px; border-radius: 50%; background: #e9ffff; box-shadow: 0 0 8px 4px #fff, 0 0 34px 15px var(--cyan), 0 0 70px 25px #236b80; animation: pulse 1.2s infinite; } .laser::before { content: ""; position: absolute; width: 310px; height: 2px; left: -150px; top: 4px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); }
+    .grind { width: 86px; height: 86px; border: 8px solid #d0dbd9; border-radius: 50%; background: repeating-conic-gradient(#607477 0 8deg, #a5b5b3 8deg 16deg); animation: turn 3s linear infinite; } .spark { position: absolute; width: 7px; height: 7px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 9px var(--amber); animation: spark 1.3s infinite; } .spark:nth-child(2) { animation-delay: .3s; } .spark:nth-child(3) { animation-delay: .65s; } .spark:nth-child(4) { animation-delay: 1s; }
+    .watcher { width: 88%; height: 75%; padding: 14px; color: #eaf4f1; background: linear-gradient(120deg, #132d34, #245967); border: 4px solid #c7d5d1; box-shadow: inset 0 0 0 1px #112a30; } .watcher strong { font: 20px Impact, sans-serif; letter-spacing: 1px; } .watcher i { display: block; width: 60%; height: 7px; margin-top: 14px; background: var(--lime); animation: scan 2.2s ease-in-out infinite; }
+    .wave { width: 88%; height: 60px; display: flex; align-items: center; justify-content: center; gap: 4px; } .wave span { width: 5px; height: 16px; background: var(--cyan); animation: wave .8s ease-in-out infinite alternate; } .wave span:nth-child(2n) { animation-delay: .25s; background: var(--lime); } .wave span:nth-child(3n) { animation-delay: .5s; background: var(--amber); }
+    .audio-control { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
+    .play-button { width: 38px; height: 38px; border: 0; border-radius: 50%; color: #fff; background: var(--ink); cursor: pointer; font-size: 16px; }
+    .play-button:hover, .play-button:focus-visible { background: #1e5966; outline: 3px solid var(--lime); outline-offset: 2px; }
+    .audio-status { color: var(--steel); font: 12px Consolas, monospace; }
+    audio { width: calc(100% - 28px); margin-top: 8px; }
+    @keyframes pulse { 50% { transform: scale(1.7); opacity: .65; } } @keyframes turn { to { transform: rotate(360deg); } } @keyframes spark { 0% { transform: translate(0, 0); opacity: 0; } 20% { opacity: 1; } 100% { transform: translate(100px, -58px); opacity: 0; } } @keyframes scan { 50% { width: 92%; background: var(--cyan); } } @keyframes wave { to { height: 52px; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header><h1>Asset-Demomaterial</h1><p>Lokale Konzeptgalerie fuer das Vollmer Messe-Game. Alle Grafiken und Klaenge sind abstrahierte Platzhalter ohne Marken- oder Produktfreigabe.</p></header>
+    <section class="grid">
+      <article><div class="visual"><img class="asset-image" src="Assets/images/tools/tool_0001.png" alt="Werkzeugbild-Demo"></div><div class="copy"><h2>Werkzeugbild</h2><code>images/tools/tool_0001.png</code><p>Feiner Bohrer, Zustand <code>dull</code>; Manifest ordnet Tap/Laser zu.</p></div></article>
+      <article><div class="visual"><img class="asset-image" src="Assets/animations/laser/fx_0001.png" alt="Lasereffekt-Demo"></div><div class="copy"><h2>Lasereffekt</h2><code>animations/laser/fx_0001.png</code><p>PNG-Textur fuer einen konfigurierbaren Trefferimpuls.</p></div></article>
+      <article><div class="visual"><img class="asset-image" src="Assets/animations/grind/fx_0001.png" alt="Schleifeffekt-Demo"></div><div class="copy"><h2>Schleifeffekt</h2><code>animations/grind/fx_0001.png</code><p>PNG-Textur fuer Schleifscheibe und gerichtete Funken.</p></div></article>
+      <article><div class="visual"><img class="asset-image" src="Assets/images/ui/attract_0001.png" alt="Watcher-Attract-Demo"></div><div class="copy"><h2>Watcher-Attract</h2><code>images/ui/attract_0001.png</code><p>Konzeptbild fuer eine spaetere lokale Querformat-Loopsequenz.</p></div></article>
+      <article><div class="visual"><div class="wave"> <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span> </div></div><div class="copy"><h2>Laser-SFX</h2><code>audio/laser/sfx_0001.wav</code><div class="audio-control"><button class="play-button" type="button" data-audio="laser-audio" data-sound="laser" aria-label="Laser-SFX abspielen">▶</button><span class="audio-status" id="laser-status">bereit</span></div><audio controls id="laser-audio" preload="metadata" src="Assets/audio/laser/sfx_0001.wav"></audio></div></article>
+      <article><div class="visual"><div class="wave"> <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span> </div></div><div class="copy"><h2>Schleif-SFX</h2><code>audio/grind/sfx_0001.wav</code><div class="audio-control"><button class="play-button" type="button" data-audio="grind-audio" data-sound="grind" aria-label="Schleif-SFX abspielen">▶</button><span class="audio-status" id="grind-status">bereit</span></div><audio controls id="grind-audio" preload="metadata" src="Assets/audio/grind/sfx_0001.wav"></audio></div></article>
+      <article><div class="visual"><div class="wave"> <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span> </div></div><div class="copy"><h2>Musik-Loop</h2><code>audio/music/music_0001.wav</code><div class="audio-control"><button class="play-button" type="button" data-audio="music-audio" data-sound="music" aria-label="Musik-Loop abspielen">▶</button><span class="audio-status" id="music-status">bereit</span></div><audio controls id="music-audio" preload="metadata" src="Assets/audio/music/music_0001.wav"></audio></div></article>
+      <article><div class="visual"><div class="wave"> <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span> </div></div><div class="copy"><h2>UI-SFX</h2><code>audio/ui/sfx_0001.wav</code><div class="audio-control"><button class="play-button" type="button" data-audio="ui-audio" data-sound="ui" aria-label="UI-SFX abspielen">▶</button><span class="audio-status" id="ui-status">bereit</span></div><audio controls id="ui-audio" preload="metadata" src="Assets/audio/ui/sfx_0001.wav"></audio></div></article>
+    </section>
+  </main>
+  <script>
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+    function playFallback(kind) {
+      const start = audioContext.currentTime;
+      const createTone = (frequency, offset, duration, type, gain) => {
+        const oscillator = audioContext.createOscillator();
+        const volume = audioContext.createGain();
+        oscillator.type = type;
+        oscillator.frequency.value = frequency;
+        volume.gain.setValueAtTime(gain, start + offset);
+        volume.gain.exponentialRampToValueAtTime(0.001, start + offset + duration);
+        oscillator.connect(volume).connect(audioContext.destination);
+        oscillator.start(start + offset);
+        oscillator.stop(start + offset + duration);
+      };
+
+      if (kind === 'laser') createTone(1450, 0, .22, 'sine', .18);
+      if (kind === 'grind') { createTone(98, 0, .5, 'sawtooth', .08); createTone(182, 0, .36, 'square', .04); }
+      if (kind === 'music') { createTone(220, 0, .7, 'sine', .08); createTone(277, .18, .65, 'sine', .06); createTone(330, .36, .72, 'sine', .06); }
+      if (kind === 'ui') { createTone(660, 0, .18, 'triangle', .14); createTone(880, .22, .28, 'triangle', .14); }
+    }
+
+    document.querySelectorAll('.play-button').forEach((button) => {
+      const audio = document.getElementById(button.dataset.audio);
+      const status = document.getElementById(button.dataset.audio.replace('-audio', '-status'));
+      let sourceFailed = false;
+
+      button.addEventListener('click', async () => {
+        if (sourceFailed) {
+          await audioContext.resume();
+          playFallback(button.dataset.sound);
+          status.textContent = 'spielt Fallback-Demo';
+          return;
+        }
+        if (audio.paused) {
+          try {
+            await audio.play();
+          } catch {
+            sourceFailed = true;
+            await audioContext.resume();
+            playFallback(button.dataset.sound);
+            status.textContent = 'spielt Fallback-Demo';
+          }
+        } else {
+          audio.pause();
+        }
+      });
+      audio.addEventListener('play', () => { button.textContent = '❚❚'; status.textContent = 'spielt'; });
+      audio.addEventListener('pause', () => { button.textContent = '▶'; status.textContent = 'pausiert'; });
+      audio.addEventListener('ended', () => { status.textContent = 'bereit'; });
+      audio.addEventListener('error', () => { sourceFailed = true; status.textContent = 'WAV nicht ladbar: Fallback bereit'; });
+    });
+  </script>
+</body>
+</html>
