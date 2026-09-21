@@ -2,7 +2,7 @@
 | | |
 |-|-|
 | **Erstelldatum:** | 2026-09-09 |
-| **Letzte Änderung:** | 2026-09-09 |
+| **Letzte Änderung:** | 2026-09-15 |
 | **Issue:** | 00001 |
 
 ## Commit-Vorschlag für den finalen Gesamt-Commit
@@ -89,10 +89,10 @@ Es existieren keine Projektdateien, Quelltexte, Tests, CI-Workflows, Build-/Depl
 ## 3.3 Spielablauf und Kernmechaniken
 
 1. **Standby/Attract:** Der Watcher zeigt eine großformatige Endlosszene; das Handheld zeigt einen eindeutigen Startbereich. Nach Inaktivität startet die Szene erneut.
-2. **Start und Onboarding:** Ein Tap reserviert die aktive Rolle. Die ersten zwei Ziele demonstrieren nacheinander Tap-Laser und Swipe-Schleifen mit verlangsamter Bewegung und klarer Geste.
+2. **Start und Onboarding:** `F2 LASER` oder `F3 SCHEIBE` bestimmt vor dem Start verbindlich den Rundenmodus; genau einer der beiden Modi ist aktiv. `F1 START` reserviert die aktive Rolle und startet die gewaehlte Runde. Die ersten zwei Ziele demonstrieren je nach Modus Tap-Laser oder Swipe-Schleifen mit verlangsamter Bewegung und klarer Geste.
 3. **Hauptphase:** Stumpfe Werkzeuge erscheinen in definierten Bahnen, Winkeln und Geschwindigkeiten. Schwierigkeit steigt über Spawnrate, Geschwindigkeit, Mischungen und kürzere Reaktionsfenster, nicht über versteckte Regeln.
 4. **Feedback:** Richtige Aktionen zeigen sofort Laserblitz beziehungsweise Schleifkontakt, Funken, Schärfeindikator, Qualität, Punkte und Combo. Fehlaktionen brechen die Combo ab oder kosten eine konfigurierbare geringe Punktzahl; sie führen nicht zu einem abrupten Rundenaus.
-5. **Ende:** Der Server beendet nach $60\text{ s}$ die Wertung, beide Ansichten zeigen Ergebnis und Tages-Highscore. Ein Name ist optional, maximal konfigurierbar lang und wird über die Bildschirmtastatur eingegeben.
+5. **Ende:** Der Server beendet nach $60\text{ s}$ die Wertung, beide Ansichten zeigen Ergebnis und die Rangliste des gespielten Modus. Der Name ist ein Pflichtfeld mit konfigurierbarer Maximallaenge und wird ueber die Bildschirmtastatur eingegeben; eine E-Mail-Adresse ist optional. Die Eingabe dient nur dem Highscore, Leads entstehen ausschliesslich im persoenlichen Messegespraech.
 6. **Rückkehr:** Nach konfigurierbaren $10$ bis $20\text{ s}$ ohne Eingabe oder nach Abschluss der Namenseingabe wird die Rolle freigegeben und der Attract-Mode geladen.
 
 **Rollenwechsel:** Die reguläre Spieleransicht erhält kein frei sichtbares Rollenmenü. Am Watcher beziehungsweise Betreiber-Host öffnet ein unauffälliger, dokumentierter Langdruck einen Betreiber-Dialog. Der Dialog zeigt den verbundenen aktiven Client und bietet die Aktionen `Rolle freigeben` sowie `Runde abbrechen und Rollen freigeben`. Beide Aktionen verlangen einen bewusst ausgeführten Slide-to-confirm-Schalter. Während einer laufenden Runde ist nur die zweite Aktion verfügbar, damit eine Wertung nicht still an eine andere Person übergeht. Nach einer Freigabe oder einem Abbruch kehren alle Clients zum Attract-Mode zurück; der nächste Handheld-Tap kann die aktive Rolle übernehmen. Der Server führt die bereits definierte atomare Übergabe mit erhöhter `RoleVersion` aus.
@@ -154,6 +154,28 @@ Humor entsteht als kurze, optionale Nebeninszenierung der industriellen Welt, ni
 
 Die Zuordnung von Bild zu Ton erfolgt ausschließlich ueber das Manifest, nie ueber Dateinamen oder feste Codepfade. Ein `humor-event` referenziert beispielsweise `audioEvent: "occluder_reveal_comic"`; diese Ereignisgruppe verweist auf eine oder mehrere gewichtete `event-sfx`-IDs. Fehlt die Gruppe oder eine Datei, bleibt die sichtbare Nebeninszenierung erhalten und der Runtime-Fallback bleibt stumm. Damit koennen Content-Verantwortliche neue Gags, Hintergrundvarianten und Tonvarianten per neuem Asset plus validiertem Manifesteintrag aktivieren, ohne die Kernlogik anzupassen.
 
+## 3.6 Retro-Editor-Betriebshuelle und Spielinszenierung
+
+**Favorit:** Die historische Vollmer-Editorreferenz wird als klar erkennbare, modern touchfaehige Betriebshuelle nachgebildet. Das feste Anthrazitgehause, die gelbe Arbeitsflaeche, die linke Maschinen-/Achsspalte, die rechte grune Ereignisleiste und die untere F-Tastenleiste rahmen das Spiel, ersetzen aber weder die Phaser-Spiellogik noch die direkte Geste auf dem Werkzeug.
+
+| Bereich | Aufgabe | Verbindliche Regel |
+|-|-|-|
+| Gelbe Arbeitsflaeche | Einziger Spielcanvas fuer Ziele, Treffer, Partikel und Parallaxwelt | Kein Bedienelement verdeckt die Flaeche; die Touchgeste findet ausschliesslich hier statt. |
+| Linke Statusspalte | Kompakte Retro-Anzeige fuer Programm, Punkte, verbleibende Zeit, Combo und virtuelle Achsen | Achswerte sind rein visuelles Feedback und werden aus bestaetigten oder lokal vorhergesagten Aktionen animiert; sie sind keine Eingabe. |
+| Linke Maschinenflaeche | Comicartige Bearbeitungszelle mit sichtbarer Aufhaengung fuer Laser und Schleifscheibe | Die Maschine bleibt ausserhalb der Trefferzone und zeigt nur nachvollziehbare, kurze Bewegungen zur jeweiligen Aktion. |
+| Rechte Ereignisleiste | Acht grune Symboltasten fuer harmlose Nebeninszenierungen | Waerend einer Runde loesen Tasten nur lokale, konfigurierbare Bild-/Toneffekte ohne Punkte-, Combo- oder Rollenwirkung aus. |
+| Untere Funktions- und F-Tastenleiste | Blaue Funktionsfelder ueber sechs grauen Retro-Tasten | `F1` ist ein nicht rastender Starttaster; `F2` bis `F6` sind visuell rastende Schalter. Die blauen Felder tragen die Klartextbefehle, die grauen Tasten nur `F1` bis `F6`. |
+
+Der neue humoristische Sketch ist die visuelle Referenz fuer Kontrast, Proportionen und die komische Werkzeuginszenierung, nicht die Freigabe fuer dargestellte Wortmarken oder Produktbilder. Die Bedienleiste verwendet keine historischen Produktionsbefehle unveraendert, damit Besucher nicht auf eine echte Maschinensteuerung schliessen. Die blauen Funktionsfelder tragen die fachlichen Bezeichnungen `START`, `LASER`, `SCHEIBE`, `ANLEITUNG`, `HIGHSCORE` und `TON`; die darunterliegenden grauen F-Tasten tragen nur `F1` bis `F6` und sind eine visuelle Retro-Metapher. `F1` ist der einzige Momenttaster und startet nur aus dem Attract- oder Ergebniszustand. `F2` und `F3` sind gegenseitig ausschliessende, rastende Modusschalter: Genau einer ist sichtbar gedrueckt und bestimmt die Runde sowie die zugehoerige Rangliste. `F4`, `F5` und `F6` sind rastende Schalter und behalten ihren sichtbaren Zustand bis zu einer erneuten Betaetigung oder bis zum konfigurierten Ruecksetzen. `F4` aktiviert die kurze, rein visuelle Geste-Demonstration. `F5` oeffnet die getrennte Rangliste des aktiven Modus; waehrend einer laufenden Runde wird sie nicht geoeffnet. `F6` schaltet ausschliesslich lokale Effekte zwischen laut, leise und stumm. Betreiberbefehle bleiben ausserhalb dieser Besucherleiste und folgen weiterhin dem geschuetzten Langdruck mit Slide-to-confirm.
+
+Die Ranglisten `LASER` und `SCHEIBE` sind getrennte, lokal persistent gespeicherte Bestenlisten; ein Eintrag besteht aus Modus, Punktzahl, Name, optionaler E-Mail-Adresse, Zeitstempel und einer technischen Eintrags-ID. Nach jeder regulär beendeten Runde muss vor der Rollenfreigabe mindestens der Name gespeichert werden; Abbruchrunden erzeugen keinen Eintrag. Die optionale E-Mail-Adresse erscheint weder auf Handheld noch Watcher und wird weder zur Lead-Generierung noch fuer automatisierte Kontaktaufnahme verarbeitet. Betreiber koennen beide Ranglisten im geschuetzten Dialog einsehen und lokal loeschen. Die Ausfallwiederherstellung muss die zuletzt bestaetigten Eintraege nach Neustart anzeigen.
+
+Die linke Comicmaschine zeigt als technische Andeutung einen kurzen Portaltraeger mit Schlitten, Kabelschlauch und gemeinsamer Werkzeugaufnahme. Der Laser ist ein schmaler Fokuskopf unter der Aufnahme; die Schleifscheibe haengt seitlich daneben an einem kurzen Schwenkarm mit sichtbarem Schutzring. Im Laser-Modus faehrt der Schlitten entlang einer virtuellen $X$-Achse, richtet sich aus und sendet einen kurzen cyanfarbenen Strahl sichtbar in die gelbe Flaeche. Im Scheiben-Modus schwenkt der Arm vor, die Scheibe dreht an und bleibt mit ihrer Schutzhaube klar als bearbeitendes Werkzeug lesbar. Der Swipe ueber die markierte Werkzeugschneide wird als lineare Zustellung gelesen: Die $X$-Anzeige folgt der Wischrichtung, $Z$ zeigt einen kurzen Zustellimpuls, und ein schmaler Funkenstreifen laeuft entlang der Schneide. Dadurch bleibt die Ninja-Slice-Qualitaet erhalten, ohne dass Besucher eine Scheibe frei zeichnen oder die Maschine selbst steuern muessen.
+
+Die rechten Symboltasten sind als optionale "Werkstatt-Spielereien" ausgestaltet, etwa Messuhr-Zucken, Foerderband-Kurzlauf, Schutzscheiben-Wischer, Pruefsiegel-Stempel oder ein kleiner Werkzeugwechsel. Jede Taste hat ein eindeutiges Piktogramm, einen maximal $2\text{ s}$ langen Effekt, einen konfigurierbaren Cooldown und optionalen Ton. Easter Eggs duerfen erst nach einer konfigurierten Folge harmloser Ereignistasten oder nach einem Highscore erscheinen; sie verbergen weder Ziele noch Navigation, veraendern keine Wertung und sind im Betreiberprofil global deaktivierbar. Die Taste `F6 TON` und die Systemlautstaerke gelten auch fuer alle Spielereien.
+
+Die Referenz ist keine pixelgenaue Reproduktion: Auf Handhelds werden Lesbarkeit und Zielgroessen gegenueber dekorativer Dichte priorisiert. Die Spalten und F-Tasten werden proportional mit festen Mindestgroessen skaliert; bei schmalem Hochformat wird die rechte Ereignisleiste als ausklappbare Symbolschublade angezeigt, waehrend die gelbe Spielflaeche mindestens $70\,%$ der Breite erhaelt. Der Watcher uebernimmt die Arbeitsflaeche und eine grossformatige Maschinenanimation, zeigt jedoch weder F-Tasten noch Ereignistasten als bedienbar an.
+
 # 4. Contracts
 
 ## 4.1 tl;dr
@@ -166,7 +188,8 @@ Die Zuordnung von Bild zu Ton erfolgt ausschließlich ueber das Manifest, nie ue
 | Sitzungsbeitritt | Client -> Server | `JoinRequest { ClientInstanceId, RequestedRole, ResumeToken? }` über HTTPS/WebSocket; Antwort enthält kurzlebige Berechtigung und `RoleVersion`. |
 | Spieleraktion | Aktiver Client -> Server | `ActionRequested { RoundId, CommandSequence, ToolId, ActionKind, InputTimestamp, Gesture }`; `ActionKind` ist `tap` oder `swipe`. |
 | Bestätigung | Server -> alle Clients | `ActionResolved { EventId, StateVersion, Outcome, ScoreDelta, ToolState, ServerTimestamp }`; identisch wiederholbar. |
-| Zustandssnapshot | Server -> Client | `GameSnapshot { RoundId, StateVersion, Phase, ActiveClientId, RemainingMs, Score, Combo, Tools }`; bei Join, Reconnect und Versionslücke. |
+| Zustandssnapshot | Server -> Client | `GameSnapshot { RoundId, StateVersion, Phase, ActiveClientId, Mode, RemainingMs, Score, Combo, Tools }`; bei Join, Reconnect und Versionslücke. |
+| Highscore | Aktiver Client -> Server | `HighscoreSubmitted { RoundId, Mode, Name, Email? }`; der Server verlangt einen nichtleeren, validierten Namen, speichert getrennt nach Modus lokal persistent und publiziert nur Name, Punktzahl und Rang. |
 | Betrieb | Blazor-Shell -> Server | lokaler Diagnose-/Resetvertrag; der Betreiber-Slide für Freigabe/Abbruch erfordert Betreiberberechtigung und erhöht `RoleVersion`, bei Abbruch zusätzlich `RoundId`. |
 | Konfiguration | Host -> Clients | versioniertes Asset-/Gameplay-Manifest, das Kategorie, monotone Asset-ID, Vorlage, Varianten, Ladepfad sowie Bild-/Audioereigniszuordnungen enthält; nur vor einer neuen Runde aktiviert. |
 
@@ -177,6 +200,7 @@ Ein lokaler ASP.NET-Core-Dienst verwendet SignalR/WebSocket für Ereignisse und 
 ## 5.1 tl;dr
 - Die Umsetzung beginnt mit Hardware-/Betriebsentscheidungen und einem vertikalen Prototyp, bevor ein vollständiges Contentpaket entsteht.
 - Phaser/TypeScript plus lokaler ASP.NET-Core-Server ist der Favorit, weil Touch-Reaktion und Betriebsverantwortung sauber getrennt bleiben.
+- Die Retro-Editor-Huelle ist eine Clientdarstellung mit phasengebundenen Befehlen; sie aendert weder die autoritative Wertung noch die passive Watcherrolle.
 - Die nachfolgenden Arbeitspakete sind verbindlich und unverändert in der Fortschrittsseite geführt.
 
 | AP | Ziel / Scope | Betroffene Komponenten | Abhängigkeiten | Validierung | Done-Kriterium |
@@ -184,8 +208,8 @@ Ein lokaler ASP.NET-Core-Dienst verwendet SignalR/WebSocket für Ereignisse und 
 | AP-01 | Messehardware, Netzwerk, Rechte und Spielregeln verbindlich erfassen; Betriebscheckliste erstellen. | Hardwareliste, Netzwerkplan, Asset-/Lizenzregister, Abnahmekriterien | OP-01 bis OP-05 | Review mit Auftraggeber; Vor-Ort-Check mit Originalgeräten | Freigegebene Randbedingungen und testbarer Betriebsplan liegen vor. |
 | AP-02 | Reproduzierbares Projektgerüst und lokaler Offline-Host aufsetzen. | .NET-Solution, ASP.NET-Core-Dienst, Blazor-Betriebshülle, TypeScript/Phaser-Client, Build-/Paketierung | AP-01 | sauberer Build auf Zielhost; Start ohne Internet | Ein Befehl startet Server und Watcher; ein Handheld erreicht die lokale Startseite. |
 | AP-03 | Autoritativen Runden-, Rollen- und Synchronisationskern implementieren. | C#-Domäne, SignalR-Hub, Snapshots, Betreiberfreigabe/-abbruch, Ereignisse, Konfiguration, MSTest | AP-02 | Unit- und Integrationschecks für Rollen, Betreiberaktionen, Timer, Deduplizierung, Reconnect | Genau ein Client ist aktiv; doppelte oder veraltete Befehle ändern die Wertung nicht. |
-| AP-04 | Vertikalen Spielprototyp mit Tap-Laser und Swipe-Schleifen erstellen. | Phaser-Szenen, 2,5D-Parallaxelandschaft, Touch-Erkennung, lokale Rückmeldung, Watcher-Ansicht | AP-03 | Touch-Test auf Zielgerät; Messung der lokalen Rückmeldung und Sichtbarkeitsregeln | Beide Gesten funktionieren intuitiv; lokale Rückmeldung liegt im Zielwert und Ziele bleiben vor Verdeckung eindeutig. |
-| AP-05 | Inhalte, Attract-/Ergebnisfluss, Highscore und Asset-/Audiopipeline ausbauen. | Kategorien, Assetvorlagen, Manifeste, Hintergrund-/Vordergrundmodule, Humorereignisse, Tooldefinitionen, HUD, Audio, lokale Tagesrangliste | AP-04, freigegebene Assets aus AP-01 | Contentwechsel mit neuer ID ohne Codeänderung; Manifest-/Bedienreview | Vollständiger Rundenablauf inklusive Rückkehr in Attract, Audio-Fallback, Bild-/Audio-Mapping und validiertem Assetmanifest ist vorhanden. |
+| AP-04 | Vertikalen Spielprototyp mit Tap-Laser, Swipe-Schleifen und Retro-Editor-Huelle erstellen. | Phaser-Szenen, gelbe Spielflaeche, linke Maschinen-/Achsanzeige, rechte Ereignisleiste, F-Tastenleiste, 2,5D-Parallaxelandschaft, Touch-Erkennung, lokale Rückmeldung, Watcher-Ansicht | AP-03 | Touch-Test auf Zielgerät; Messung der lokalen Rückmeldung, Zielgroessen, Sichtbarkeitsregeln und phasengebundener Befehle | Beide Gesten funktionieren intuitiv; lokale Rückmeldung liegt im Zielwert, Ziele bleiben vor Verdeckung eindeutig und kein Besucherbefehl beeinflusst Rollen oder Wertung. |
+| AP-05 | Inhalte, Attract-/Ergebnisfluss, getrennte persistente Highscores und Asset-/Audiopipeline ausbauen. | Kategorien, Assetvorlagen, Manifeste, Hintergrund-/Vordergrundmodule, Humorereignisse, Tooldefinitionen, HUD, Audio, lokale Ranglisten `LASER`/`SCHEIBE` | AP-04, freigegebene Assets aus AP-01 | Contentwechsel mit neuer ID ohne Codeänderung; Neustart-, Eingabe- und Datenschutzreview | Vollständiger Rundenablauf inklusive Namenspflicht, getrennter stromausfallfester Ranglisten, Rückkehr in Attract, Audio-Fallback, Bild-/Audio-Mapping und validiertem Assetmanifest ist vorhanden. |
 | AP-06 | Messehärtung, Fallbacks, Lasttests und Übergabe durchführen. | Kioskmodus, Diagnose, Recovery, Releasepaket, Betriebsdokumentation | AP-05 | Offline-, WLAN-, Reconnect-, Watcher-Ausfall-, Dauerlauf- und Abnahmetest | Abnahmekriterien sind nachweislich erfüllt; Ersatzhost und Wiederanlauf sind geprobt. |
 
 | Option | Vorteile | Nachteile |
@@ -214,6 +238,11 @@ Empfohlene Werkzeuge: Phaser als 2D-Laufzeit-Engine, TypeScript für Clientcode,
 | Touch | Tap und Swipe erzeugen lokal sichtbares Feedback in $\leq 50\text{ ms}$ p95 auf dem Zielhandheld. |
 | Framerate | Aktiver Client erreicht $\geq 55\text{ FPS}$ p95, Watcher $\geq 50\text{ FPS}$ p95 unter dem freigegebenen Maximalspawnprofil. |
 | Hintergrund und Verdeckung | Jedes Ziel ist mindestens $650\text{ ms}$ vor der ersten Verdeckung vollständig sichtbar; keine Verdeckung überschreitet $40\,\%$ Trefferfläche oder $450\text{ ms}$. |
+| Retro-Editor-Huelle | Die gelbe Arbeitsflaeche ist der einzige Ziel- und Gestenbereich; linke Achsen reagieren sichtbar auf Laser und Schleifswipe, ohne selbst Eingabe zu werden. |
+| Funktions- und F-Tastenleiste | `F1` ist ein nicht rastender Starttaster. `F2` bis `F6` sind ausreichend grosse, visuell rastende Schalter; `F2 LASER` und `F3 SCHEIBE` bleiben stets gegenseitig ausschliessend, genau einer ist aktiv. Die grauen Tasten enthalten ausser `F1` bis `F6` keinen weiteren Text. Alle rechten Ereignistasten sind wertungsneutral und respektieren `TON`. |
+| Laser- und Schleifscheiben-Inszenierung | Die linke Maschine zeigt Portaltraeger, Schlitten, Kabelschlauch, Fokuskopf sowie eine seitliche Scheibe mit Schutzring. Ein Swipe entlang der sichtbaren Schneide zeigt gerichtete Achsbewegung, Scheibenanlauf und Funkenstreifen, ohne eine freie Maschinensteuerung oder unklare Trefferzone zu erzeugen. |
+| Kleine Viewports | Im schmalen Hochformat bleibt die gelbe Spielflaeche mindestens $70\,%$ breit; die Ereignisleiste wechselt ohne Ueberlappung in eine Symbolschublade. |
+| Highscore und Neustart | Nach einer regulären Runde verhindert ein leerer Name die Rollenfreigabe. `LASER` und `SCHEIBE` speichern und zeigen getrennte Ranglisten; alle bestaetigten Eintraege bestehen einen kontrollierten Hostneustart. Optionale E-Mail-Adressen bleiben aus jeder oeffentlichen Anzeige ausgeschlossen. |
 | Synchronisierung | Befehl bis Server p95 $\leq 75\text{ ms}$, bestätigter Clientzustand p95 $\leq 150\text{ ms}$, Watcher p95 $\leq 250\text{ ms}$ im Messe-WLAN. |
 | Rollen | Zwei parallele Beitrittsversuche ergeben stets genau eine aktive Rolle; nur der Betreiber-Slide kann freigeben oder abbrechen, und jeder Wechsel ist atomar und versioniert. |
 | Paketverlust | Wiederholte Nachricht und Versionslücke ändern Punktestand/Ereignis nie doppelt; Snapshot stellt Konsistenz wieder her. |
@@ -284,7 +313,7 @@ Ohne Server ist eine gemeinsame wertungsrelevante Runde nicht zuverlässig forts
 | OP-01 | Zielhardware und Aufstellungsdetails | ❌ zu klären | Originalgeräte, Anschlüsse und Kioskmodus verbindlich erfassen. | Hardware bestimmt Browser, Auflösung, Audio und Performancebudget. |
 | OP-02 | Messe-Netzwerk und Verantwortlichkeit | ❌ zu klären | Eigenen Access Point mit isolierter SSID einsetzen und vor Ort testen. | Lokale Kontrolle senkt Latenz- und Zugriffsrisiken. |
 | OP-03 | Corporate Assets, Lizenz und Rechte | ❌ zu klären | Freigabeprozess und Assetregister durch Vollmer benennen. | Der Bestand enthält keine verwertbaren Medien und uneinheitliche Rechtehinweise. |
-| OP-04 | Highscore und Personendaten | ❌ zu klären | Standardmäßig anonyme Initialen, lokale Tageslöschung; Datenschutzfreigabe einholen. | Dies minimiert Datenerhebung und Betriebsaufwand. |
+| OP-04 | Highscore, Pflichtname und optionale E-Mail-Adresse | ❌ zu klären | Aufbewahrungsfrist, Hinweistext, Betreiberzugriff und Loeschprozess verbindlich freigeben. | Namen und optionale E-Mail-Adressen werden lokal persistiert und muessen datenschutzkonform behandelbar sein. |
 | OP-05 | Fachliche Regeln und Erfolgskriterien | ❌ zu klären | Workshop mit Produkt-/Messeverantwortlichen, danach prototypische Abnahme. | Werkzeugzuordnung, Tonalität und Schwierigkeitskurve brauchen Fachfreigabe. |
 | OP-06 | Technologieempfehlung | ✅ geklärt | Option C als Ausgangsarchitektur planen. | Sie erfüllt Touch-, Offline- und Betriebsanforderungen am ausgewogensten. |
 
@@ -326,15 +355,16 @@ Es sind keinerlei Produktbilder, Logos, Schriften oder Sounds im Repository vorh
 
 ## 8.4 ❌ OP-04: Highscore und Personendaten
 ### tl;dr
-- Fehlende Information: Ob Namen, Initialen oder weitere Daten angezeigt und gespeichert werden dürfen.
+- Festgelegt: Ein Name ist fuer jeden Highscoreeintrag verpflichtend; die Ranglisten `LASER` und `SCHEIBE` bleiben lokal ueber einen Neustart hinaus erhalten.
+- Fehlende Information: Aufbewahrungsfrist, Datenschutzhinweis, Zugriffskreis und Loeschprozess fuer Namen und optional eingegebene E-Mail-Adressen.
 
 ### Detail
-Ein öffentlich sichtbarer Highscore kann personenbezogene oder unangemessene Inhalte enthalten.
+Der Name wird oeffentlich zusammen mit Punktzahl und Rang angezeigt. Eine E-Mail-Adresse ist freiwillig, wird nicht angezeigt, nicht fuer automatisierte Kontaktaufnahme verwendet und erzeugt keinen Leadprozess; Messeleads entstehen ausschliesslich im persoenlichen Gespraech. Beide Datenarten werden lokal persistent gespeichert und koennen daher nicht mehr als rein anonyme Tagesliste behandelt werden.
 
 ### Empfehlung
-- **Favorit:** Voreinstellung: optional drei Initialen, lokale Tagesliste, manuelle Betreiberlöschung und Zeichenfilter.
-- **Begründung:** Das bietet Wiedererkennung bei deutlich geringerem Datenschutz- und Moderationsaufwand als Freitextnamen.
-- **Nächste Aktion:** Datenschutz- und Messeverantwortliche geben Datenumfang, Aufbewahrung und Anzeige frei.
+- **Favorit:** Eingabe auf einen validierten Anzeigenamen begrenzen, E-Mail nur als klar optionales Feld erfassen, beide lokalen Ranglisten ueber den Betreiber loeschbar halten und vor Eingabe einen freigegebenen Datenschutzhinweis mit Aufbewahrungsfrist anzeigen.
+- **Begründung:** Das erfuellt die gewuenschte langlebige Highscorefunktion, minimiert die erhobenen Daten und trennt das Spiel eindeutig von der persoenlichen Leadgenerierung.
+- **Nächste Aktion:** Datenschutz- und Messeverantwortliche geben Zeichenregeln, Aufbewahrungsfrist, Hinweistext, Betreiberzugriff und sicheren lokalen Loeschprozess frei.
 
 ## 8.5 ❌ OP-05: Fachliche Regeln und Erfolgskriterien
 ### tl;dr
