@@ -2,7 +2,7 @@
 | | |
 |-|-|
 | **Erstelldatum:** | 2026-09-09 |
-| **Letzte Änderung:** | 2026-09-21 |
+| **Letzte Änderung:** | 2026-09-23 |
 | **Issue:** | 00001 |
 
 ## Commit-Vorschlag für den finalen Gesamt-Commit
@@ -15,7 +15,7 @@
 - Geplante Umsetzung: humorvolles Touch-Arcade-Spiel auf einem Windows-Convertible mit lokaler Kabelanzeige und optionalem Beobachter.
 - Geplante Entscheidung: autoritativer ASP.NET-Core-Server, Phaser/TypeScript-Spielclients und Blazor-Betriebshülle.
 - Geplante Absicherung: automatisierte Regeltests sowie Touch-, Latenz-, Last- und Hardware-Abnahme.
-- Offene Punkte: konkrete Anschlüsse und Auflösung sowie Audioübernahme und fehlende Audioassets.
+- Nachweise vor Messebetrieb: konkrete Serienkonfiguration, Monitor-/Audiofunktion sowie Übernahme und Lieferung der Assets.
 ```
 
 # 0. Entscheidungsvorlage
@@ -23,10 +23,10 @@
 | | |
 |-|-|
 | **Problem** | Ein selbstironisches Retro-Fungame soll am Messestand zuverlässig ohne WLAN spielbar sein. |
-| **Lösung** | Windows-Convertible mit lokalem ASP.NET-Core-Server, Phaser/TypeScript-Client und Kabelbildschirm; zusätzliche Beobachter sind optional. |
-| **Entscheidungsbedarf** | Keine kreative Freigaberunde; Mediengrundlage und Lead-/Gewinnspielzweck sind geklärt, Hardwaredetails und Sounds folgen. |
+| **Lösung** | Fujitsu LifeBook U9313X als Windows-Convertible mit lokalem ASP.NET-Core-Server und Phaser/TypeScript-Client; ein 27-Zoll-QHD-Bildschirm zeigt kabelgebunden den passiven Watcher. |
+| **Entscheidungsbedarf** | Keine offene Konzeptentscheidung. Mediengrundlage, Lead-/Gewinnspielzweck, Hardwareprofil und Assetvertrag sind geklärt; Betriebs- und Mediennachweise folgen erst vor Messebetrieb. |
 | **Top-Risiko** | Ungeprüfte Touch-, Monitor- und Audioanschlüsse gefährden den verbindlichen Kabel-Fallback. |
-| **Blockierende offene Punkte** | Keine für das Projektgerüst; vor Messebetrieb OP-01 Hardwaretest und OP-07 Audioübernahme/-lieferung erledigen. OP-03 und OP-04 sind geklärt. |
+| **Blockierende offene Punkte** | Keine für die Implementierung. Vor Messebetrieb müssen B-01 Hardware-/Audiofunktion und B-02 Medienlieferung nachgewiesen sein. |
 
 # 1. Kontext, Zielsetzung & Use Case
 
@@ -114,7 +114,16 @@ Eine Spielaktion ist genau eine im Canvas begonnene und abgeschlossene Tap-/Swip
 
 Die visuelle Richtung verbindet die historische gelbe Vollmer-Arbeitsfläche, das anthrazitfarbene Gehäuse und die grünen/blauen Retro-Bedienelemente mit einer comicartigen Produktionswelt. Der Wiedererkennungswert und die liebevolle Überzeichnung sind ausdrücklich erwünscht. Werkzeuge benötigen klar lesbare Silhouetten und die Zustände `dull`, `in_progress` und `sharp`; fotorealistische Details sind nur dort sinnvoll, wo sie die Form nicht verschleiern.
 
-**Farbe und Schrift:** Vorgaben des Nutzers haben Vorrang. Ohne solche Vorgaben werden eine eigenständig gewählte Farbpalette und frei für den vorgesehenen Einsatz verwendbare Schriften eingesetzt, bevorzugt lokal gebündelte OFL-Schriften. Keine kostenpflichtige Corporate-Schrift und kein fremdes restriktiv lizenziertes Gestaltungspaket werden vorausgesetzt. Erforderliche Lizenzhinweise bleiben im Paket; eine zusätzliche Designfreigabe ist nicht vorgesehen.
+**Farbe und Schrift:** Das bereitgestellte VWC-Design-System ist verbindliche Leitplanke für Bedienhülle, HUD und Overlays, keine Beschränkung für Spielwelt, Werkzeuge, Effekte oder Humor. Orange ist der wiederkehrende Markenakzent: `vwc.base.color.orange.600` (`#ff8f00`) für Start, Fokus, Fortschritt und bestätigte Hauptaktionen; `orange.400` (`#e87900`) für aktive/gedrückte Zustände; `orange.800` (`#ffe9cc`) für zurückhaltende Hervorhebung. Anthrazit nutzt `grey.100` (`#3b3b3b`) und `grey.200` (`#505050`), die historische Arbeitsfläche `yellow.600` (`#ffed00`). Cyan `blue.600` (`#00bbfc`) bleibt dem Laser vorbehalten; Grün `green.600` (`#94e200`) kennzeichnet korrektes Spiel-Feedback und Rot `red.600` (`#fe0e26`) Fehler oder Abzug. Damit bleibt die Hülle wiedererkennbar, während Assets, Parallaxe und Effekte ihre eigene comicartige Farbdramaturgie verwenden dürfen; Orange ist kein pauschaler Ersatz für das bestehende Gelb.
+
+| Bereich | Design-Token | Einsatzregel |
+|-|-|-|
+| Primäre Bedienaktion und Fokus | `orange.600`, `orange.400` | Start, ausgewählter Modus, Tastatur-/Touchfokus und bestätigte Hauptaktion; nie als Laser- oder Fehlerfarbe verwenden. |
+| Retro-Gehäuse und neutrale Fläche | `grey.100`, `grey.200`, `grey.700` | Gehäuse, Ränder, Trennlinien und deaktivierte Bedienelemente. |
+| Arbeitsfläche und Spielwelt | `yellow.600`; freie Produktionspalette | Gelb trägt die historische Arbeitsfläche. Die Spielwelt darf zusätzliche, kontraststarke Farben nutzen, solange Ziele und Gesten lesbar bleiben. |
+| Fachliches Feedback | `blue.600`, `green.600`, `red.600` | Laser, Erfolg und Fehler bleiben semantisch eindeutig und konkurrieren nicht mit dem orangefarbenen Markenakzent. |
+
+Für HUD, Bedienhülle und Formulare wird `Source Sans Pro` aus dem Design-System bevorzugt lokal gebündelt eingesetzt. Eine eigenständige, frei verwendbare Akzentschrift für Attract-Mode oder Werkstückkomik ist zulässig, sofern sie Lesbarkeit und die Bedienhülle nicht verdrängt. Keine kostenpflichtige Corporate-Schrift und kein fremdes restriktiv lizenziertes Gestaltungspaket werden vorausgesetzt. Erforderliche Lizenzhinweise bleiben im Paket; eine zusätzliche Designfreigabe ist nicht vorgesehen.
 
 Das HUD bleibt am Handheld kompakt: oben Zeit und Punkte, darunter Combo und Modusindikator. Der Watcher nutzt dieselben Ereignisse, zeigt aber großformatige Werkzeugbewegungen, den aktuellen Spielerstatus, Punkte, Combo und optional die Tagesrangliste. Der Watcher enthält keine Eingabecontrols.
 
@@ -240,9 +249,9 @@ Die Zuordnung von Bild zu Ton erfolgt ausschließlich ueber das Manifest, nie ue
 | Linke Statusspalte | Kompakte Retro-Anzeige fuer Programm, Punkte, verbleibende Zeit, Combo und virtuelle Achsen | Achswerte sind rein visuelles Feedback und werden aus bestaetigten oder lokal vorhergesagten Aktionen animiert; sie sind keine Eingabe. |
 | Linke Maschinenflaeche | Comicartige Bearbeitungszelle mit sichtbarer Aufhaengung fuer Laser und Schleifscheibe | Die Maschine bleibt ausserhalb der Trefferzone und zeigt nur nachvollziehbare, kurze Bewegungen zur jeweiligen Aktion. |
 | Rechte Ereignisleiste | Acht grune Symboltasten fuer harmlose Nebeninszenierungen | Waerend einer Runde loesen Tasten nur lokale, konfigurierbare Bild-/Toneffekte ohne Punkte-, Combo- oder Rollenwirkung aus. |
-| Untere Funktions- und F-Tastenleiste | Blaue Funktionsfelder ueber sechs grauen Retro-Tasten | `F1` ist ein nicht rastender Starttaster; `F2` bis `F6` sind visuell rastende Schalter. Die blauen Felder tragen die Klartextbefehle, die grauen Tasten nur `F1` bis `F6`. |
+| Untere Funktions- und F-Tastenleiste | Oranges `START`-Feld und blaue Funktionsfelder ueber sechs grauen Retro-Tasten | `F1` ist ein nicht rastender orangefarbener Starttaster; `F2` bis `F6` sind visuell rastende Schalter. Die Funktionsfelder tragen die Klartextbefehle, die grauen Tasten nur `F1` bis `F6`. |
 
-Der humoristische Sketch ist die visuelle Referenz fuer Kontrast, Proportionen und die komische Werkzeuginszenierung; die Medienherkunft wird davon getrennt dokumentiert. Die Bedienleiste verwendet keine historischen Produktionsbefehle unveraendert, damit Besucher nicht auf eine echte Maschinensteuerung schliessen. Die blauen Funktionsfelder tragen die fachlichen Bezeichnungen `START`, `LASER`, `SCHEIBE`, `ANLEITUNG`, `HIGHSCORE` und `TON`; die darunterliegenden grauen F-Tasten tragen nur `F1` bis `F6` und sind eine visuelle Retro-Metapher. `F1` ist der einzige Momenttaster und startet nur aus dem Attract- oder Ergebniszustand. `F2` und `F3` sind gegenseitig ausschliessende, rastende Modusschalter: Genau einer ist sichtbar gedrueckt und bestimmt die Runde sowie die zugehoerige Rangliste. `F4`, `F5` und `F6` sind rastende Schalter und behalten ihren sichtbaren Zustand bis zu einer erneuten Betaetigung oder bis zum konfigurierten Ruecksetzen. `F4` aktiviert die kurze, rein visuelle Geste-Demonstration. `F5` oeffnet die getrennte Rangliste des aktiven Modus; waehrend einer laufenden Runde wird sie nicht geoeffnet. `F6` schaltet den gesamten lokalen Mix aus Musik, Werkstückstimmen und Bedienfeedback zwischen laut, leise und stumm. Betreiberbefehle bleiben ausserhalb dieser Besucherleiste und folgen weiterhin dem geschuetzten Langdruck mit Slide-to-confirm.
+Der humoristische Sketch ist die visuelle Referenz fuer Kontrast, Proportionen und die komische Werkzeuginszenierung; die Medienherkunft wird davon getrennt dokumentiert. Die Bedienleiste verwendet keine historischen Produktionsbefehle unveraendert, damit Besucher nicht auf eine echte Maschinensteuerung schliessen. Das orange Feld `START` markiert die einzige primäre Aktion; die blauen Funktionsfelder tragen `LASER`, `SCHEIBE`, `ANLEITUNG`, `HIGHSCORE` und `TON`. Die darunterliegenden grauen F-Tasten tragen nur `F1` bis `F6` und sind eine visuelle Retro-Metapher. `F1` ist der einzige Momenttaster und startet nur aus dem Attract- oder Ergebniszustand. `F2` und `F3` sind gegenseitig ausschliessende, rastende Modusschalter: Genau einer ist sichtbar gedrueckt und bestimmt die Runde sowie die zugehoerige Rangliste. `F4`, `F5` und `F6` sind rastende Schalter und behalten ihren sichtbaren Zustand bis zu einer erneuten Betaetigung oder bis zum konfigurierten Ruecksetzen. `F4` aktiviert die kurze, rein visuelle Geste-Demonstration. `F5` oeffnet die getrennte Rangliste des aktiven Modus; waehrend einer laufenden Runde wird sie nicht geoeffnet. `F6` schaltet den gesamten lokalen Mix aus Musik, Werkstückstimmen und Bedienfeedback zwischen laut, leise und stumm. Betreiberbefehle bleiben ausserhalb dieser Besucherleiste und folgen weiterhin dem geschuetzten Langdruck mit Slide-to-confirm.
 
 Die Ranglisten `LASER` und `SCHEIBE` sind getrennte, lokal persistent gespeicherte Bestenlisten; ein Eintrag besteht aus Modus, Punktzahl, Anzeigename, Zeitstempel, Hinweis-/Einwilligungsversion und einer technischen Eintrags-ID. Ein Fantasiename genügt. E-Mail, Gewinnspielteilnahme und gegebenenfalls Einwilligung zur Vertriebsansprache werden getrennt von der öffentlichen Rangliste gespeichert. Nur Einträge mit E-Mail und Gewinnspielteilnahme werden bei der Preisvergabe nach der Messe berücksichtigt; die öffentliche Rangliste enthält auch Einträge ohne E-Mail. Betreiber können die erforderlichen Kontakt-/Gewinnspieldaten geschützt für die Nachbearbeitung exportieren, einzelne Einträge oder beide Ranglisten löschen. Exporte sind nicht für Watcher erreichbar und unterliegen denselben Zweck- und Löschregeln. Ohne Eintrag, nach Formular-Timeout oder bei Abbruch werden keine eingegebenen Kontaktdaten gespeichert. Wiederherstellung darf gelöschte/abgelaufene Daten nicht erneut veröffentlichen; Details regelt Kap. 3.8.
 
@@ -254,17 +263,17 @@ Die Referenz ist keine pixelgenaue Reproduktion: Auf Handhelds werden Lesbarkeit
 
 ## 3.7 Lokaler Windows-Betrieb und verbindlicher Kabel-Fallback
 
-**Favorit:** Windows 11, lokal paketierter ASP.NET-Core-Host inklusive Client, Schriften, Assets und Konfiguration sowie installierter Chromium-basierter Browser (bevorzugt Edge). Windows 10 bleibt ein gesondert auf dem konkreten Gerät zu prüfendes Kompatibilitätsziel, keine ungeprüfte Supportzusage. Framework-, Browser- und Betriebssystemversionen werden passend zur Zielhardware festgeschrieben. Keine Installation, Lizenzaktivierung oder Assetabfrage darf beim Messe-Kaltstart Internet benötigen.
+**Favorit:** Windows 11 auf einem Fujitsu LifeBook U9313X, lokal paketierter ASP.NET-Core-Host inklusive Client, Schriften, Assets und Konfiguration sowie installierter Chromium-basierter Browser (bevorzugt Edge). Die Serienangaben der [Zielhardware](https://laptopmedia.com/series/fujitsu-lifebook-u9313x/) nennen ein 13,3-Zoll-Full-HD-Display, HDMI 2.0, zwei Thunderbolt-4-/DisplayPort-fähige USB-C-Anschlüsse und eine 3,5-mm-Kombibuchse. Windows 10 bleibt ein gesondert auf dem konkreten Gerät zu prüfendes Kompatibilitätsziel, keine ungeprüfte Supportzusage. Framework-, Browser- und Betriebssystemversionen werden passend zur Zielhardware festgeschrieben. Keine Installation, Lizenzaktivierung oder Assetabfrage darf beim Messe-Kaltstart Internet benötigen.
 
 | Betriebsart | Aufbau | Verbindlichkeit |
 |-|-|-|
-| Einzelgerät | Server, Betriebshülle und aktiver Phaser-Client auf demselben Convertible, Kommunikation über Loopback | muss bei deaktiviertem WLAN und gezogenem Netzwerkkabel vollständig funktionieren |
-| Kabelanzeige | HDMI/DisplayPort beziehungsweise passender USB-C-Adapter zum Monitor; erweiterter Windows-Desktop, zweites lokales Browserfenster als stummer Watcher | verbindlicher Fallback, kein Netzwerk und kein zweiter Rechner nötig |
+| Einzelgerät | Server, Betriebshülle und aktiver Phaser-Client auf demselben LifeBook U9313X, Kommunikation über Loopback | muss bei deaktiviertem WLAN und gezogenem Netzwerkkabel vollständig funktionieren |
+| Kabelanzeige | Direkte HDMI-2.0-Verbindung zum 27-Zoll-QHD-Monitor bevorzugt; Thunderbolt-4-/DisplayPort-USB-C nur als geprüfter Ersatzweg. Erweiterter Windows-Desktop, zweites lokales Browserfenster als stummer Watcher | verbindlicher Fallback, kein Netzwerk und kein zweiter Rechner nötig |
 | Drahtloser Beobachter | separates Gerät mit passivem Browserclient über eine vor Ort verfügbare lokale Verbindung | optional; Ausfall oder fehlende Erlaubnis der Funkverbindung verhindert keine Runde |
 
 Die Kabelanzeige ist bewusst eine lokale Zuschaueransicht statt einer dauerhaften 1:1-Spiegelung: So bleiben Bildschirmtastatur, Datenschutzeinwilligung und E-Mail-Eingabe auf dem Convertible. Windows „Duplizieren“ ist nur für den technischen Bildtest ohne Personendateneingabe geeignet. Im regulären Betrieb wird „Erweitern“ verwendet; bei unklarer Monitorzuordnung bleiben Personendatenfelder gesperrt und das Spiel kann ohne Eintrag weiterlaufen.
 
-**Auflösung:** Planungsbasis ist 1920 × 1080, 16:9 quer. Native Convertible-/Monitorauflösung und Windows-Skalierung werden nachgeliefert. Canvas und Trefferkoordinaten nutzen dieselbe logische 16:9-Fläche; andere Seitenverhältnisse erhalten Letterboxing statt verzerrter Werkzeuge. Touchflächen bleiben mindestens 44 × 44 CSS-Pixel groß. Full HD bei 100 %, 125 % und 150 % Windows-Skalierung ist vorläufige Layout-Prüfbasis, keine bereits bestandene Hardwareabnahme.
+**Auflösung:** Der aktive Host nutzt 1920 × 1080, 16:9 quer, auf dem 13,3-Zoll-Display. Der passive 27-Zoll-Monitor nutzt QHD mit 2560 × 1440, ebenfalls 16:9 quer. Canvas und Trefferkoordinaten nutzen dieselbe logische 16:9-Fläche; der Watcher rendert sie nativ in QHD, andere Seitenverhältnisse erhalten Letterboxing statt verzerrter Werkzeuge. Touchflächen bleiben mindestens 44 × 44 CSS-Pixel groß. Full HD am Host bei 100 %, 125 % und 150 % Windows-Skalierung sowie QHD am Watcher bei der festgelegten Skalierung sind verbindliche Layout-Prüfbasis, keine bereits bestandene Hardwareabnahme.
 
 **Start und Fallback:** Netzteil und Kabel anschließen, Windows-Anzeigemodus prüfen, lokalen Host starten, aktive Ansicht auf dem Touchdisplay und lokalen Watcher auf dem zweiten Monitor öffnen, Tonprobe mit fest gewähltem Ausgabegerät durchführen. Fällt Funk aus, läuft die Runde weiter; der Kabel-Watcher kann sich jederzeit mit einem Snapshot zuschalten. Monitor-Abziehen oder -Anstecken darf weder aktive Rolle noch Timer ändern. HDMI/USB-C kann das Windows-Audioziel umschalten: bevorzugt bleibt der getestete lokale Lautsprecher-/Klinkenausgang fest gewählt; Monitoraudio wird nur nach eigenem Anschlusstest verwendet. Ein Audio-Selbsttest nach dem Umstecken gehört zur Betriebscheckliste.
 
@@ -339,19 +348,19 @@ Ein lokaler ASP.NET-Core-Dienst verwendet SignalR/WebSocket für Ereignisse und 
 # 5. Implementierungsplan
 
 ## 5.1 tl;dr
-- Die Umsetzung beginnt mit einem lokalen Windows-Betriebsprofil und einem vertikalen Prototyp; fehlende Produktionssounds und die genaue Auflösung blockieren das Projektgerüst nicht.
+- Die Umsetzung beginnt unmittelbar mit einem vertikalen Prototyp; Hardwareprofil und Medienvertrag sind festgelegt, ihre Nachweise erfolgen erst vor Messebetrieb.
 - Phaser/TypeScript plus lokaler ASP.NET-Core-Server ist der Favorit, weil Touch-Reaktion und Betriebsverantwortung sauber getrennt bleiben.
 - Die Retro-Editor-Huelle ist eine Clientdarstellung mit phasengebundenen Befehlen; sie aendert weder die autoritative Wertung noch die passive Watcherrolle.
 - Die nachfolgenden Arbeitspakete sind verbindlich und unverändert in der Fortschrittsseite geführt.
 
 | AP | Ziel / Scope | Betroffene Komponenten | Abhängigkeiten | Validierung | Done-Kriterium |
 |-|-|-|-|-|-|
-| AP-01 | Lokales Windows-Betriebsprofil und technische Checkliste festhalten. | Convertible-/Monitorprofil, Full-HD-Annahme, Anschlüsse, Audioausgang, schlanke Medien-/Datenschutzliste | Festlegungen aus Kap. 3.7 und 3.8; kein OP-05-Gate | Checkliste gegen Konzept prüfen; noch fehlende Gerätedaten explizit in OP-01 belassen | Umsetzbares Einzelgeräte-/Kabelprofil liegt vor; Restnachweise sind AP-06 zugeordnet, kein Freigabeworkshop erforderlich. |
-| AP-02 | Reproduzierbares Projektgerüst und lokalen Offline-Host aufsetzen. | .NET-Solution, ASP.NET Core, Blazor-Betriebshülle, TypeScript/Phaser, Windows-Paketierung | AP-01 | sauberer Build; Kaltstart mit deaktiviertem WLAN und ohne WAN | Ein Startablauf öffnet Host und aktiven Client auf demselben Convertible sowie optional einen lokalen Kabel-Watcher. |
+| AP-01 | Betriebsnachweise für Messeaufbau vorbereiten. | LifeBook-U9313X-/27-Zoll-QHD-Profil, HDMI-Primärweg, USB-C-Ersatzweg, Audioausgang, schlanke Medien-/Datenschutzliste | Kann parallel zu AP-02 bis AP-05 erfolgen; für die Messefreigabe vor AP-06 abschließen | Checkliste gegen Konzept prüfen; B-01 und B-02 als Nachweise führen | Prüffähige Betriebscheckliste liegt vor; kein Implementierungsschritt ist davon abhängig. |
+| AP-02 | Reproduzierbares Projektgerüst und lokalen Offline-Host aufsetzen. | .NET-Solution, ASP.NET Core, Blazor-Betriebshülle, TypeScript/Phaser, Windows-Paketierung | — | sauberer Build; Kaltstart mit deaktiviertem WLAN und ohne WAN | Ein Startablauf öffnet Host und aktiven Client auf demselben Convertible sowie optional einen lokalen Kabel-Watcher. |
 | AP-03 | Autoritativen Runden-, Punkte-, Rollen- und Synchronisationskern implementieren. | C#-Domäne, SignalR, Trefferzonen, Konfiguration, Snapshots, MSTest | AP-02 | Tests für 60-s-Standard, konfigurierbare Dauer, Fehl-/Schaftabzug, Rundengrenzen, Deduplizierung und passive Fernclients | Genau ein lokaler Client ist aktiv; jede Geste zählt höchstens einmal, negative Punkte beenden keine Runde und Fernclients bleiben passiv. |
-| AP-04 | Tap-Laser, Säge-Swipe und humorvolle Retro-Editor-Hülle prototypisch umsetzen. | Phaser, Bohrer/Fräser mit PKD-Varianten und Schaftzonen, Sägen, Parallaxe, F-Tasten, lokale Watcher-Ansicht | AP-03 | Touch-, Zonen-, Full-HD-/DPI-, Verdeckungs- und lokale Latenztests | Gesten und Schaftabzug sind eindeutig; lokale Bildrückmeldung erfüllt das Budget, Kabel-Watcher zeigt dieselbe Runde ohne Eingaben. |
-| AP-05 | Inhalte, Audiopools, Musikmischer, Highscores und Lead-/Gewinnspielerfassung ausbauen. | Manifest, Success-/Fail-Pools, Zufallsbeutel, Ducking, Kanalgrenzen, Datenschutz-Overlay/-Konfiguration, Ranglisten, Kontaktformular und Betreiberexport | AP-04; Audio-Platzhalter zulässig, Lieferstatus aus OP-07 bleibt sichtbar | Audio-Burst-/Poolgrößen-/Ducking-, Overlay-, Konfigurationswechsel-, Persistenz-, Preisberechtigungs-, Einwilligungs-, Export- und Löschtests | Rundenfluss, zwei Effekte maximal, Musik-Ducking, Hinweis ohne Neubau, Fantasienamen ohne E-Mail und Preisvergabe nur mit E-Mail sowie getrennte Vertriebsfreigabe sind umgesetzt. |
-| AP-06 | Messehärtung und verbindlichen Kabel-Fallback auf Originalhardware nachweisen. | Windows-Kiosk, Monitor-/Audioumschaltung, Recovery, finale Medien, Betriebsdokumentation | AP-05; OP-01 und OP-07 abschließen; geklärte Vorgaben aus OP-03/OP-04 umsetzen | Kaltstart ohne Netz, Kabel-Hotplug, optionaler Funkverlust, vier Stunden Dauerlauf, Hörcheck und Datenschutzprüfung | Offline- und Kabelbetrieb sind nachgewiesen, Produktionssounds übernommen/geliefert/geprüft, Datenschutzhinweis konfiguriert und Nachmesse-Auswertung sowie Wiederanlauf geprobt. |
+| AP-04 | Tap-Laser, Säge-Swipe und humorvolle Retro-Editor-Hülle prototypisch umsetzen. | Phaser, Bohrer/Fräser mit PKD-Varianten und Schaftzonen, Sägen, Parallaxe, F-Tasten, lokale Watcher-Ansicht | AP-03 | Touch-, Zonen-, Full-HD-Host-/QHD-Watcher-/DPI-, Verdeckungs- und lokale Latenztests | Gesten und Schaftabzug sind eindeutig; lokale Bildrückmeldung erfüllt das Budget, 27-Zoll-QHD-Kabel-Watcher zeigt dieselbe Runde ohne Eingaben. |
+| AP-05 | Inhalte, Audiopools, Musikmischer, Highscores und Lead-/Gewinnspielerfassung ausbauen. | Manifest, Success-/Fail-Pools, Zufallsbeutel, Ducking, Kanalgrenzen, VWC-Tokenzuordnung, Datenschutz-Overlay/-Konfiguration, Ranglisten, Kontaktformular und Betreiberexport | AP-04; Audio-Platzhalter zulässig, Lieferstatus aus B-02 bleibt sichtbar | Audio-Burst-/Poolgrößen-/Ducking-, Token-/Kontrast-, Overlay-, Konfigurationswechsel-, Persistenz-, Preisberechtigungs-, Einwilligungs-, Export- und Löschtests | Rundenfluss, zwei Effekte maximal, orange Hauptaktionen, semantisch eindeutige Feedbackfarben, Musik-Ducking, Hinweis ohne Neubau, Fantasienamen ohne E-Mail und Preisvergabe nur mit E-Mail sowie getrennte Vertriebsfreigabe sind umgesetzt. |
+| AP-06 | Messehärtung und verbindlichen Kabel-Fallback auf Originalhardware nachweisen. | Windows-Kiosk, Monitor-/Audioumschaltung, Recovery, finale Medien, Betriebsdokumentation | AP-05; B-01 und B-02; geklärte Vorgaben aus OP-03/OP-04 umsetzen | Kaltstart ohne Netz, Kabel-Hotplug, optionaler Funkverlust, vier Stunden Dauerlauf, Hörcheck und Datenschutzprüfung | Offline- und Kabelbetrieb sind nachgewiesen, Produktionssounds übernommen/geliefert/geprüft, Datenschutzhinweis konfiguriert und Nachmesse-Auswertung sowie Wiederanlauf geprobt. |
 
 | Option | Vorteile | Nachteile |
 |-|-|-|
@@ -380,6 +389,7 @@ Empfohlene Werkzeuge: Phaser als 2D-Laufzeit-Engine, TypeScript für Clientcode,
 | Framerate | Aktiver Client erreicht $\geq 55\text{ FPS}$ p95, Watcher $\geq 50\text{ FPS}$ p95 unter dem festgelegten Maximalspawnprofil. |
 | Hintergrund und Verdeckung | Jedes Ziel ist mindestens $650\text{ ms}$ vor der ersten Verdeckung vollständig sichtbar; keine Verdeckung überschreitet $40\,\%$ Trefferfläche oder $450\text{ ms}$. |
 | Retro-Editor-Huelle | Die gelbe Arbeitsflaeche ist der einzige Ziel- und Gestenbereich; linke Achsen reagieren sichtbar auf Laser und Schleifswipe, ohne selbst Eingabe zu werden. |
+| Design-Tokens und Kontrast | HUD, Bedienhülle und Overlays verwenden die semantische VWC-Zuordnung: Orange für Fokus/Hauptaktion, Cyan für Laser, Grün für Erfolg, Rot für Fehler und Gelb für die Arbeitsfläche. Touch- und Tastaturfokus bleiben auf anthrazitfarbenem Gehäuse sichtbar; Spielwelt und Effekte bleiben innerhalb der Lesbarkeitsregeln gestalterisch frei. |
 | Funktions- und F-Tastenleiste | `F1` ist ein nicht rastender Starttaster. `F2` bis `F6` sind ausreichend grosse, visuell rastende Schalter; `F2 LASER` und `F3 SCHEIBE` bleiben stets gegenseitig ausschliessend, genau einer ist aktiv. Die grauen Tasten enthalten ausser `F1` bis `F6` keinen weiteren Text. Alle rechten Ereignistasten sind wertungsneutral und respektieren `TON`. |
 | Laser- und Schleifscheiben-Inszenierung | Die linke Maschine zeigt Portaltraeger, Schlitten, Kabelschlauch, Fokuskopf sowie eine seitliche Scheibe mit Schutzring. Ein Swipe entlang der sichtbaren Schneide zeigt gerichtete Achsbewegung, Scheibenanlauf und Funkenstreifen, ohne eine freie Maschinensteuerung oder unklare Trefferzone zu erzeugen. |
 | Kleine Viewports | Im schmalen Hochformat bleibt die gelbe Spielflaeche mindestens $70\,%$ breit; die Ereignisleiste wechselt ohne Ueberlappung in eine Symbolschublade. |
@@ -389,7 +399,7 @@ Empfohlene Werkzeuge: Phaser als 2D-Laufzeit-Engine, TypeScript für Clientcode,
 | Rollen | Zwei parallele Beitrittsversuche ergeben stets genau eine aktive Rolle; nur der Betreiber-Slide kann freigeben oder abbrechen, und jeder Wechsel ist atomar und versioniert. |
 | Paketverlust | Wiederholte Nachricht und Versionslücke ändern Punktestand/Ereignis nie doppelt; Snapshot stellt Konsistenz wieder her. |
 | Offline und Kabel | Kaltstart, Runde, Rangliste, lokale Watcher-Ansicht, Musik und Assets funktionieren mit deaktiviertem WLAN und gezogenem Netzwerkkabel. Externen Bildschirm vor/während/nach der Runde anschließen und abziehen: keine zweite aktive Rolle, kein Timerreset, keine Veröffentlichung privater Formulare. Audioausgang nach Hotplug prüfen. |
-| Full HD und Skalierung | 1920 × 1080 bei 100/125/150 % Windows-Skalierung; UI, Canvas und Trefferzonen stimmen überein. Andere Seitenverhältnisse verzerren keine Zonen, Mindesttouchflächen und Letterboxing bleiben erhalten. |
+| Full HD, QHD und Skalierung | Aktiver LifeBook-Host: 1920 × 1080 bei 100/125/150 % Windows-Skalierung; passiver 27-Zoll-Watcher: 2560 × 1440 bei festgelegter Skalierung. UI, Canvas und Trefferzonen stimmen überein. Andere Seitenverhältnisse verzerren keine Zonen, Mindesttouchflächen und Letterboxing bleiben erhalten. |
 | Wertung | Erfolg +10, falsches Schärfen -5, Schaft -10, Fehlschlag -5 als Startprofil; geänderte Werte ohne Build aktivierbar. Zonengrenzen, PKD-/Nicht-PKD- und Größenvarianten prüfen; ein Versuch zählt einmal, negative Stände enden erst mit dem Timer. |
 | Audioereignisse und Pools | Je Modus nur `success` und `fail`; Schaft/Fehlbearbeitung/Fehlschlag teilen den Fail-Pool. Jedes bestätigte Ereignis startet Kurzfeedback. Poolgrößen 1, 3, 6 und 8 ohne Codeänderung prüfen, leerer Pool nutzt Fallback. Alle Varianten vor erneutem Mischen einmal ziehen; ab zwei Varianten keine direkte Wiederholung. Wiederholte Event-ID, Snapshot und Reconnect sind stumm. |
 | Audio-Burst und Ducking | Zehn Aktionen in einer Sekunde: höchstens zwei Effektquellen plus Musik, keine wachsende Queue, veraltete Stimmen nach spätestens 200 ms verwerfen. Musikabsenkung 12 dB, Attack 20 ms, Hold 120 ms, Release 250 ms; keine kumulative Absenkung, kein unbeabsichtigtes Entstummen. Kurzfeedback p95 höchstens 100 ms nach Gestenende. |
@@ -401,6 +411,15 @@ Empfohlene Werkzeuge: Phaser als 2D-Laufzeit-Engine, TypeScript für Clientcode,
 | Fallback | Watcher-Neustart beeinflusst die Runde nicht; Handheld-Reconnect folgt der definierten Frist; Serverausfall führt zu kontrolliertem Neustart oder getrenntem Demo-Modus. |
 
 Unit-Tests sichern Punkte-, Combo-, Zeit-, Rollen- und Deduplizierungsregeln ab. Integrationstests prüfen Hub-/Snapshotverträge, Konkurrenz und Reconnect. E2E-Tests decken Start, Gesten, Runde, Ergebnis und Watcherbeitritt ab. Zusätzlich sind ein Dauerlauf über mindestens vier Stunden, ein Paketverlusttest, ein Kaltstarttest und eine Vor-Ort-Abnahme mit finalen Geräten verpflichtend.
+
+### 6.2 Betriebs- und Mediennachweise vor Messebetrieb
+
+Diese Nachweise sind keine offenen Konzeptentscheidungen und blockieren weder Projektgerüst noch Spielimplementierung. Sie sind ausschließlich Eintrittskriterien für AP-06 und den Messebetrieb.
+
+| Nachweis | Inhalt | Verantwortlicher Zeitpunkt |
+|-|-|-|
+| B-01 Hardware und Audioausgabe | Auf dem tatsächlichen LifeBook und 27-Zoll-QHD-Monitor: HDMI-Primärweg, USB-C-Ersatzweg, Windows-Skalierung, Touch, Hotplug sowie der fest gewählte Audioausgang funktionieren im Netz-aus-Test. „Audioabnahme“ bedeutet ausschließlich diese technische Wiedergabeprüfung einschließlich Lautstärke und Umschaltverhalten, keine kreative oder fachliche Freigabe. | Vor AP-06 |
+| B-02 Produktionsmedien | Die vereinbarten Bild-, Sprach-, UI- und Musikdateien liegen mit Manifestzuordnung vor; der Hörcheck prüft nur Zuordnung, Pegel, Loopgrenzen und Clipping. Platzhalter und technisch leere Pools bleiben bis dahin für die Implementierung zulässig. | Vor AP-06 |
 
 # 7. Risiken
 
@@ -483,26 +502,26 @@ Lead-Erzeugung und Preisbenachrichtigung nach der Messe sind festgelegt. Eine re
 
 | Offener Punkt | Kurzbeschreibung | Status |
 |-|-|-|
-| OP-01 | Windows-Convertible und Full-HD-Annahme festgelegt; Modell, Auflösung und Anschlüsse fehlen | ❌ zu klären |
+| OP-01 | Zielhardware, Auflösung und Anschlusspfade | ✅ geklärt |
 | OP-02 | Lokaler Betrieb und Kabel-Fallback; Funk nur als Option | ✅ geklärt |
 | OP-03 | Eigene/royaltyfree Medien; ohne Nutzervorgabe frei verwendbare Farben und Schriften | ✅ geklärt |
 | OP-04 | Leads, Fantasienamen und Preisbenachrichtigung per E-Mail nach der Messe; konfigurierbarer DSGVO-Hinweis | ✅ geklärt |
 | OP-05 | Fach-/Marketingfreigabe entfällt ausdrücklich | ✅ geklärt |
 | OP-06 | Bestehender Stack auf einem Windows-Gerät | ✅ geklärt |
-| OP-07 | Säge-, UI- und Musiklieferung sowie Hörzuordnung der Laserdateien | ❌ zu klären |
+| OP-07 | Assetvertrag und Übernahmeregeln | ✅ geklärt |
 
-## 8.1 ❌ OP-01: Zielhardware und Aufstellungsdetails
+## 8.1 ✅ OP-01: Zielhardware und Aufstellungsdetails
 ### tl;dr
-- Festgelegt: Windows-Convertible, bevorzugt Windows 11, Server und aktiver Client auf demselben Gerät; Planungsformat Full HD quer.
-- Fehlend: Modell, endgültiges OS, native Auflösungen, DPI-Skalierung, Monitor-/Adapteranschluss und Audioausgang.
+- Festgelegt: Fujitsu LifeBook U9313X als Windows-Host mit 13,3-Zoll-Full-HD-Display; Server und aktiver Client laufen auf demselben Gerät. Ein 27-Zoll-QHD-Monitor zeigt kabelgebunden den passiven Watcher.
+- Festgelegt: HDMI 2.0 ist der Primärweg, Thunderbolt-4-/DisplayPort-USB-C der Ersatzweg. Serienkonfiguration, Monitor-/Skalierungseinstellung und technische Audioprüfung sind Betriebsnachweise B-01, keine Entwurfsentscheidungen.
 
 ### Detail
-Der Nutzer liefert die Auflösung nach. Ein separates Handheld oder ein externer Server ist nicht erforderlich. Windows 10 wird nur bei tatsächlicher Gerätewahl samt passender Laufzeit-/Browserunterstützung geprüft.
+Die [Serienspezifikation des LifeBook U9313X](https://laptopmedia.com/series/fujitsu-lifebook-u9313x/) führt 1920 × 1080 für das integrierte Display sowie HDMI 2.0 und zwei Thunderbolt-4-/DisplayPort-fähige USB-C-Anschlüsse. Der 27-Zoll-Monitor ist als QHD-16:9-Watcher mit 2560 × 1440 festgelegt. Ein separates Handheld oder ein externer Server ist nicht erforderlich. Die konkrete CPU-/RAM-/SSD-/Windows-Konfiguration kann innerhalb der Serie variieren; sie wird in B-01 erfasst, ohne die Implementierung zu beeinflussen.
 
 ### Empfehlung
-- **Favorit:** Bis zur Lieferung mit 1920 × 1080 und Windows 11 planen; Hardwaredaten in AP-01 nachtragen, Originalaufbau in AP-06 prüfen.
-- **Begründung:** Das Projektgerüst kann beginnen, ohne eine noch unbestätigte Hardwareabnahme vorzutäuschen.
-- **Nächste Aktion:** Gerätemodell und Anschlussdaten vom tatsächlichen Convertible/Monitor erfassen; Kabel und Adapter für den Netz-aus-Test bereitstellen.
+- **Favorit:** Windows 11 auf dem LifeBook nutzen, den 27-Zoll-QHD-Monitor direkt per HDMI 2.0 anbinden und USB-C nur als getesteten Ersatzweg bereithalten.
+- **Begründung:** Der direkte HDMI-Pfad reduziert Adapterabhängigkeiten; das bekannte FHD-/QHD-16:9-Profil reicht für die Implementierung vollständig aus.
+- **Nächste Aktion:** B-01 vor AP-06 durchführen: Tatsächliche CPU-/RAM-/SSD-/Windows-Konfiguration, Monitormodell, Skalierung, Bildwiederholrate, Kabel und Audioausgang erfassen sowie HDMI-Primärweg und USB-C-Ersatzweg im Netz-aus-Test prüfen.
 
 ## 8.2 ✅ OP-02: Lokaler Betrieb statt WLAN-Abhängigkeit
 ### tl;dr
@@ -566,15 +585,15 @@ Blazor Server ist kein geeigneter primärer Echtzeit-Client; reines Phaser löst
 - **Begründung:** Direkte Touch-Interaktion, keine WLAN-Abhängigkeit und eine wiederverwendbare passive Beobachteransicht.
 - **Nächste Aktion:** AP-02 validiert Start, Paketierung und Kioskmodus auf Zielhardware.
 
-## 8.7 ❌ OP-07: Audiolieferung und Hörzuordnung
+## 8.7 ✅ OP-07: Assetvertrag und Übernahmeregeln
 ### tl;dr
 - Vorhanden: zehn Laser-MP3s unter bisherigen `yell`-Namen. Startvorschlag: Übernahme unter Aktionsnamen und 22 zusätzliche Dateien gemäß Kap. 3.4.4; 3–6 Varianten pro Aktion sind Ziel, keine technische Grenze.
-- Fehlend: Säge-Stimmen, kurze Feedback-/UI-Sounds, Arcade-Musik und Hörprüfung der vorhandenen Laserdateien.
+- Die fehlenden Säge-Stimmen, kurzen Feedback-/UI-Sounds und die Arcade-Musik sind B-02. Ihre Lieferung verändert die Implementierungsreihenfolge nicht.
 
 ### Detail
 Alle Aktionen und Zufallspools sind mit konkreten Dateinamen spezifiziert. Die Planung stützt sich auf den Dateibestand, nicht auf eine hier erfolgte Klang- oder Längenanalyse.
 
 ### Empfehlung
-- **Favorit:** Genau die Lieferliste aus Kap. 3.4.4 verwenden; Zuordnung nach Hörcheck gegebenenfalls allein im Manifest korrigieren.
-- **Begründung:** Der Nutzer weiß vorab, welche Dateien fehlen, und die Umsetzung braucht keine zusätzlichen unbenannten Soundpakete.
-- **Nächste Aktion:** Laserbestand auf `laser_success_*`/`laser_fail_*` verteilen; jeweils drei `saw_success_*`, `saw_fail_*`, `feedback_success_*`, `feedback_fail_*`, `ui_confirm_*`, `round_start_*`, `round_end_*` sowie `arcade_music_01.mp3` liefern oder produzieren. Exakte Namen und Auslöser stehen in Kap. 3.4.4; AP-06 prüft Klang, Pegel, Loopgrenzen und Mischer.
+- **Favorit:** Genau die Lieferliste aus Kap. 3.4.4 verwenden; bis B-02 bleiben Platzhalter und die dort definierten Audio-Fallbacks zulässig. Die Zuordnung wird nach Hörcheck gegebenenfalls allein im Manifest korrigiert.
+- **Begründung:** Der Nutzer weiß vorab, welche Dateien fehlen, während der Spielkern, Pools, Mixer und Fallbacks ohne Produktionsmedien implementierbar bleiben.
+- **Nächste Aktion:** B-02 vor AP-06 durchführen: Laserbestand auf `laser_success_*`/`laser_fail_*` verteilen; jeweils drei `saw_success_*`, `saw_fail_*`, `feedback_success_*`, `feedback_fail_*`, `ui_confirm_*`, `round_start_*`, `round_end_*` sowie `arcade_music_01.mp3` liefern oder produzieren. AP-06 prüft Zuordnung, Pegel, Loopgrenzen und Mischer.
